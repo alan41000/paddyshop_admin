@@ -45,7 +45,7 @@ export const crudOptions = (vm) => {
       {
         title: '图片',
         key: 'images_url',
-        type:'image-uploader',
+        type:'avatar-uploader',
         component: { props: { height: 80, width: 80 } },
         search: { disabled: true },
         form: {
@@ -54,10 +54,11 @@ export const crudOptions = (vm) => {
             props: {
               uploader: {
                 type: 'form',
-                action: '/shop/upload/save',
+                action: '/admin/common.upload/save',
+                data:{path:'images/banner'},
                 successHandle(res){
                   return {url:res.data.url}
-                  }
+                }
               }
             },
             span: 24
@@ -153,7 +154,7 @@ export const crudOptions = (vm) => {
         },
         form: {
           component:{
-            value:1
+            value:true
           }
         },
         width:50
