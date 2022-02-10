@@ -43,6 +43,17 @@
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
                         </el-form-item>
+                        <div style="width:600px"><el-divider></el-divider></div>
+                        <el-form-item label="库存扣减规则" prop="common_goods_inventory_rules">
+                            <el-select v-model="baseWebsiteForm.common_goods_inventory_rules" placeholder="请选择">
+                                <el-option
+                                v-for="item in goodsInventoryRules"
+                                :key="item.value"
+                                :label="item.label"
+                                :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('baseWebsiteForm')">确定</el-button>
                         </el-form-item>
@@ -137,6 +148,43 @@
                 </el-tab-pane> -->
             </el-tabs>
         </el-tab-pane>
+        <el-tab-pane label="文件上传配置" name="upload">
+            <el-tabs v-model="uploadTab" type="card">
+                <el-tab-pane label="基础配置" name="uploadBase">
+                    <el-form :model="uploadTypeForm" :rules="uploadTypeRules" ref="uploadTypeForm" label-width="100px" class="demo-ruleForm">
+                        <el-form-item label="上传类型" prop="uploadType">
+                            <el-radio v-model="uploadTypeForm.upload_type" label="local">本地存储</el-radio>
+                            <el-radio v-model="uploadTypeForm.upload_type" label="aliyunOss">阿里云OSS</el-radio>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('uploadTypeForm')">确定</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+                <el-tab-pane label="阿里云配置" name="aliyunOss">
+                    <el-form :model="aliyunOssForm" :rules="aliyunOssRules" ref="aliyunOssForm" label-width="150px" class="demo-ruleForm">
+                        <el-form-item label="Bucket" prop="upload_type_aliyunoss_bucket">
+                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_bucket" placeholder="请输入Bucket"></el-input>
+                        </el-form-item>
+                        <el-form-item label="Endpoint" prop="upload_type_aliyunoss_endpoint">
+                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_endpoint" placeholder="请输入Endpoint"></el-input>
+                        </el-form-item>
+                        <el-form-item label="AccessKeyId" prop="upload_type_aliyunoss_accessKeyId">
+                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_accessKeyId" placeholder="请输入AccessKeyId"></el-input>
+                        </el-form-item>
+                        <el-form-item label="AccessKeySecret" prop="upload_type_aliyunoss_accessKeySecret">
+                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_accessKeySecret" placeholder="请输入AccessKeySecret"></el-input>
+                        </el-form-item>
+                        <el-form-item label="RoleArn" prop="upload_type_aliyunoss_roleArn">
+                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_roleArn" placeholder="请输入RoleArn"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('aliyunOssForm')">确定</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+            </el-tabs>
+        </el-tab-pane>
     </el-tabs>
   </d2-container>
 </template>
@@ -159,18 +207,34 @@ export default {
         mallTab:'mallBase',
         appTab:'appWeixinMiniApp',
         paymentTab:'paymenWallet',
+        uploadTab:'uploadBase',
+        uploadTypeForm:{
+            upload_type:'local'
+        },
+        uploadTypeRules:{
+            upload_type:'',
+        },
+        aliyunOssForm:{
+
+        },
         baseWebsiteForm:{
             common_website_name:'',
             common_website_enable:'0',
             common_website_url:'',
             common_website_logo:'',
             common_website_icon:'',
+            common_goods_inventory_rules:'付款减库存',
         },
         baseWebsiteRules:{
             common_website_url:[
                 {pattern:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+\/$/,message:'网站地址以https或http开头，/结尾'}
             ]
         },
+        goodsInventoryRules: [
+            {value: '1',label: '下单减库存'}, 
+            {value: '2',label: '付款减库存'}, 
+            {value: '3',label: '确认收货减库存'}
+        ],
         appH5Form:{
             app_weixinh5_appid:'',
             app_weixinh5_appsecret:'',
@@ -250,6 +314,10 @@ export default {
                                 this.baseWebsiteForm.common_website_logo = ret.data[i].value;
                                 this.websiteLogo = '/' + ret.data[i].value;
                                 break;
+                            
+                            case 'common_goods_inventory_rules':
+                                this.baseWebsiteForm.common_goods_inventory_rules = ret.data[i].value;
+                                break;
 
                             case 'app_weixinminiapp_appid':
                                 this.appWeixinMiniAppForm.app_weixinminiapp_appid = ret.data[i].value;
@@ -273,6 +341,30 @@ export default {
 
                             case 'payment_weixin_key':
                                 this.paymenWeixinForm.payment_weixin_key = ret.data[i].value;
+                                break;
+
+                            case 'upload_type':
+                                this.uploadTypeForm.upload_type = ret.data[i].value;
+                                break;
+
+                            case 'upload_type_aliyunoss_bucket':
+                                this.aliyunOssForm.upload_type_aliyunoss_bucket = ret.data[i].value;
+                                break;
+                            
+                            case 'upload_type_aliyunoss_endpoint':
+                                this.aliyunOssForm.upload_type_aliyunoss_endpoint = ret.data[i].value;
+                                break;
+
+                            case 'upload_type_aliyunoss_accessKeyId':
+                                this.aliyunOssForm.upload_type_aliyunoss_accessKeyId = ret.data[i].value;
+                                break;
+
+                            case 'upload_type_aliyunoss_accessKeySecret':
+                                this.aliyunOssForm.upload_type_aliyunoss_accessKeySecret = ret.data[i].value;
+                                break;
+
+                            case 'upload_type_aliyunoss_roleArn':
+                                this.aliyunOssForm.upload_type_aliyunoss_roleArn = ret.data[i].value;
                                 break;
 
                             default:

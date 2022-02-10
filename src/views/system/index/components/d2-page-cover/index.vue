@@ -80,16 +80,16 @@
             </el-row>
             <el-row>
               <el-col :span="6">
-                <el-button @click="$message('敬请期待')">官方网站</el-button>
+                <el-button @click="$open('https://www.paddyshop.net')">官方网站</el-button>
               </el-col>
               <el-col :span="6">
                 <el-button @click="$message('敬请期待')">文档中心</el-button>
               </el-col>
               <el-col :span="6">
-                <el-button @click="$open('https://github.com/AlanLeung0410/paddyshop')">github</el-button>
+                <el-button @click="$open('https://github.com/alan41000/paddyshop')">github</el-button>
               </el-col>
               <el-col :span="6">
-                <el-button @click="$open('https://gitee.com/AlanLeung87/paddyshop')">gitee</el-button>
+                <el-button @click="$open('https://gitee.com/alan410/paddyshop')">gitee</el-button>
               </el-col>
             </el-row> 
           </div>
