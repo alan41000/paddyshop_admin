@@ -8,7 +8,7 @@
             <div class="items">
               <div class="items-left">
                 <el-image
-                style="width: 80px; height: 80px"
+                style="width: 50px; height: 50px"
                 :src="this.value.home_recommended_images">
                 </el-image>
               </div>
@@ -54,7 +54,7 @@ export default {
 .info-right{width:70%; float: left;}
 .goods{ width: 100%; padding:10px;display: block;}
 .items-left{width:20%; float: left;}
-.items-right{width:80%; float: left; line-height: 2;}
-.items-right .title{ font-size: 16px; margin-left: 10px;}
+.items-right{width:80%; float: left; line-height: 1.5;}
+.items-right .title{ font-size: 14px;}
 .items-right .price-info{ color: #c0c4cc; width: 100%;}
 </style>

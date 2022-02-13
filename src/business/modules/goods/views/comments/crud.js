@@ -119,6 +119,19 @@ export const crudOptions = (vm) => {
         },
       },
       {
+        title: '晒图',
+        key: 'images',
+        type:'image-uploader',
+        component: { props: { height: 40, width: 40 } },
+        width: 95,
+        search: { disabled: true },
+        form: {
+          disabled:true
+        },
+        show:true,
+        sortable: false
+      },
+      {
         title: '评分',
         key: 'rating',
         component: {
@@ -145,7 +158,7 @@ export const crudOptions = (vm) => {
         },
         sortable: false,
         search: { disabled:true},
-        width: 50,
+        width: 40,
         form: {
             disabled:true
         },
@@ -154,7 +167,7 @@ export const crudOptions = (vm) => {
         title: '显示',
         key: 'is_show',
         type: 'switch',
-        width: 80,
+        width: 40,
         search: {
           disabled: true,
         },
