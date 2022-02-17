@@ -63,6 +63,7 @@ export default {
 	},
   data () {
     return {
+      config:[],
       // 添加规格
       addItem: {
         add:false, // 状态
@@ -134,7 +135,18 @@ export default {
       ]
     }
   },
+  mounted: function () {
+    this.getConfig();
+  },
   methods: {
+    getConfig(){
+      request({
+        url: '/setting.Config/getAll',
+        method: 'get'
+      }).then(ret => {
+        this.config = ret.data;
+      })
+    },
     doCellDataChange(context){
       // 上下架状态更新
       this.enableStatusUpdata(context,'goods.goods','shelves');
@@ -171,6 +183,50 @@ export default {
       this.addItem = { add:false, name:'',item:'' };
     },
     doDialogOpened (context) {
+      var upLoadConfig = {
+        type:'',
+        domain:'',
+        bucket:'',
+        region:'',
+        returnType:'',
+        custom:{}
+      };
+      // 图片上传字段处理
+      for(var i = 0; i < this.config.length; i++){
+        switch(this.config[i].name){
+          case 'upload_type':
+              if(this.config[i].value == 'aliyunOss'){
+                upLoadConfig.type = 'alioss';
+                upLoadConfig.region = 'oss-cn-shenzhen';
+                upLoadConfig.returnType = 'key';
+                upLoadConfig.custom = {
+                  fileType: 'goods', //上传时存放的文件目录
+                };
+                for(var j = 0; j < this.config.length; j++){
+                  switch(this.config[j].name){
+                    case 'upload_type_aliyunoss_endpoint':
+                      upLoadConfig.domain = this.config[j].value;
+                      break;
+
+                    case 'upload_type_aliyunoss_bucket':
+                      upLoadConfig.bucket = this.config[j].value;
+                      break;
+
+                    default:
+                  }
+                }
+              }
+
+              if(this.config[i].value == 'local'){
+                upLoadConfig.type = 'form';
+                upLoadConfig.action = '/admin/common.upload/save';
+              }
+              break;
+              
+
+          default:
+        }
+      }
       if(context.mode == 'edit')
       {
         this.sku = context.row.skuValue;
@@ -183,6 +239,8 @@ export default {
         this.attribute = [];
         this.sourceAttribute = [];
       }
+      context.template.images.component.props.uploader = upLoadConfig;
+      context.template.content.component.props.uploader = upLoadConfig;
     },
     getCrudOptions () {
       return crudOptions(this)

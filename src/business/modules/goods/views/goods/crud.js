@@ -104,15 +104,6 @@ export const crudOptions = (vm) => {
       form: {
         rules: [{ required: true, message: '请上传商品主图' }],
         component: {
-          props: {
-            uploader: {
-              type: 'form',
-              action: '/admin/common.upload/save',
-              successHandle(res){
-                return {url:res.data.url}
-              }
-            }
-          },
           span: 24
         },
       },
@@ -289,18 +280,8 @@ export const crudOptions = (vm) => {
         rules: [{ required: true, message: '请填写详情内容' }],
         component: {
           props: {
-            uploader: {
-              type: 'form',
-              action: '/admin/common.upload/save',
-              successHandle(res){
-                return {url:res.data.url}
-                }
-            }
           },
           events: {
-            // 'text-change': (event) => {
-            //   console.log('text-change:', event)
-            // }
           },
           show: true
         }

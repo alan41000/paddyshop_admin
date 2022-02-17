@@ -134,7 +134,7 @@ Vue.use(D2pUploader, {
     accessKeySecret: '',
     getAuthorization  (custom, context) { // 不传accessKeySecret代表使用临时签名模式,此时此参数必传（安全，生产环境推荐）
       return request({
-        url: '/upload/alioss/getAuthorization',
+        url: '/common.OssSTS/getStsOauth',
         method: 'get'
       }).then(ret => {
         return ret.data
@@ -174,7 +174,7 @@ Vue.use(D2pUploader, {
       if (ret.data == null || ret.data === '') {
         throw new Error('上传失败')
       }
-      return { url: ret.data }
+      return { url: ret.data.url }
     }
   }
 })

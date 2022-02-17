@@ -215,6 +215,13 @@ export default {
             upload_type:'',
         },
         aliyunOssForm:{
+            upload_type_aliyunoss_bucket:'',
+            upload_type_aliyunoss_endpoint:'',
+            upload_type_aliyunoss_accessKeyId:'',
+            upload_type_aliyunoss_accessKeySecret:'',
+            upload_type_aliyunoss_roleArn:'',
+        },
+        aliyunOssRules:{
 
         },
         baseWebsiteForm:{
@@ -307,12 +314,12 @@ export default {
 
                             case 'common_website_icon':
                                 this.baseWebsiteForm.common_website_icon = ret.data[i].value;
-                                this.websiteIcon = '/' + ret.data[i].value;
+                                this.websiteIcon = ret.data[i].value;
                                 break;
 
                             case 'common_website_logo':
                                 this.baseWebsiteForm.common_website_logo = ret.data[i].value;
-                                this.websiteLogo = '/' + ret.data[i].value;
+                                this.websiteLogo = ret.data[i].value;
                                 break;
                             
                             case 'common_goods_inventory_rules':
