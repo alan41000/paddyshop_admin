@@ -67,20 +67,7 @@
             </el-tabs>
         </el-tab-pane> -->
         <el-tab-pane label="应用配置" name="app">
-            <el-tabs v-model="appTab" type="card">
-                <!-- <el-tab-pane label="微信公众号H5" name="appH5">                    
-                    <el-form :model="appH5Form" :rules="appH5Rules" ref="appH5Form" label-width="100px" class="demo-ruleForm">
-                        <el-form-item label="AppId" prop="appid">
-                            <el-input class="input" v-model="appH5Form.app_weixinh5_appid" placeholder="请输入微信公众号AppId"></el-input>
-                        </el-form-item>
-                        <el-form-item label="AppSecret" prop="appid">
-                            <el-input class="input" v-model="appH5Form.app_weixinh5_appsecret" placeholder="请输入微信公众号AppSecret"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="submitForm('appH5Form')">确定</el-button>
-                        </el-form-item>
-                    </el-form>
-                </el-tab-pane> -->
+            <el-tabs v-model="appTab" type="card">                
                 <el-tab-pane label="微信小程序" name="appWeixinMiniApp">
                     <el-form :model="appWeixinMiniAppForm" :rules="appWeixinMiniAppRules" ref="appWeixinMiniAppForm" label-width="100px" class="demo-ruleForm">
                         <el-form-item label="AppId" prop="app_appWeixinMiniApp_appid">
@@ -91,6 +78,19 @@
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('appWeixinMiniAppForm')">确定</el-button>
+                        </el-form-item>
+                    </el-form>
+                </el-tab-pane>
+                <el-tab-pane label="微信公众号H5" name="weixinH5">                    
+                    <el-form :model="weixinH5Form" :rules="WeixinH5Rules" ref="weixinH5Form" label-width="100px" class="demo-ruleForm">
+                        <el-form-item label="AppId" prop="appid">
+                            <el-input class="input" v-model="weixinH5Form.app_weixinh5_appid" placeholder="请输入微信公众号AppId"></el-input>
+                        </el-form-item>
+                        <el-form-item label="AppSecret" prop="appid">
+                            <el-input class="input" v-model="weixinH5Form.app_weixinh5_appsecret" placeholder="请输入微信公众号AppSecret"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" @click="submitForm('weixinH5Form')">确定</el-button>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
@@ -167,7 +167,7 @@
                             <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_bucket" placeholder="请输入Bucket"></el-input>
                         </el-form-item>
                         <el-form-item label="Endpoint" prop="upload_type_aliyunoss_endpoint">
-                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_endpoint" placeholder="请输入Endpoint"></el-input>
+                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_endpoint" placeholder="请输入Endpoint,以https开头，/结尾"></el-input>
                         </el-form-item>
                         <el-form-item label="AccessKeyId" prop="upload_type_aliyunoss_accessKeyId">
                             <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_accessKeyId" placeholder="请输入AccessKeyId"></el-input>
@@ -222,7 +222,9 @@ export default {
             upload_type_aliyunoss_roleArn:'',
         },
         aliyunOssRules:{
-
+            upload_type_aliyunoss_endpoint:[
+                {pattern:/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\*\+,;=.]+\/$/,message:'Endpoint以https开头，/结尾'}
+            ]
         },
         baseWebsiteForm:{
             common_website_name:'',
@@ -242,13 +244,13 @@ export default {
             {value: '2',label: '付款减库存'}, 
             {value: '3',label: '确认收货减库存'}
         ],
-        appH5Form:{
+        weixinH5Form:{
             app_weixinh5_appid:'',
             app_weixinh5_appsecret:'',
         },
-        appH5Rules:{
-            app_appH5_appid:[],
-            app_appH5_appsecret:[],
+        weixinH5Rules:{
+            app_weixinH5_appid:[],
+            app_weixinH5_appsecret:[],
         },
         appWeixinMiniAppForm:{
             app_weixinminiapp_appid:'',
