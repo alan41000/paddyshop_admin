@@ -3,6 +3,7 @@ import Adapter from 'axios-mock-adapter'
 import { get } from 'lodash'
 import util from '@/libs/util'
 import { errorLog, errorCreate } from './tools'
+import store from '@/store/index'
 
 /**
  * @description 创建请求实例
@@ -37,9 +38,8 @@ function createService () {
             // [ 示例 ] code === 0 代表没有错误
             // TODO 可能结果还需要code和msg进行后续处理，所以返回全部结果
             return dataAxios
-          case 'xxx':
-            // [ 示例 ] 其它和后台约定的 code
-            errorCreate(`[ code: xxx ] ${dataAxios.msg}: ${response.config.url}`)
+          case 401:
+            store.dispatch('d2admin/account/logout',{confirm:false}).then(()=>{})
             break
           default:
             // 不是正确的 code
