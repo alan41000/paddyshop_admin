@@ -17,34 +17,52 @@
                           @refresh="doRefresh()"
                           @columns-filter-changed="handleColumnsFilterChanged"/>
           </div>
+
+          <!-- sku -->
           <template  ref="skuData" slot="skuFormSlot">
             <el-card class="">
-              <el-form class="el-form" v-if="addItem.add" label-width="100px" size="mini">
-              <el-form-item label="规格名称">
-                  <el-input placeholder="规格名称" v-model="addItem.name"></el-input>
-              </el-form-item>
-              <el-form-item label="规格值">
-                  <el-input placeholder="规格值" v-model="addItem.item"></el-input>
-              </el-form-item>
-              <el-form-item class="">
-                  <el-button @click="addSpec" type="primary">确认</el-button>
-                  <el-button @click="addItem.add = false" type="info">取消</el-button>
-              </el-form-item>
-              </el-form>
-              <div class="">
-                <el-button @click="addItem.add = true">添加规格值</el-button>
-              </div>
-          </el-card>
-          <SkuForm
-            ref="skuForm"
-            :source-attribute="sourceAttribute"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
-            :structure="structure"
-            separator="-"
-          />
+                <el-form class="el-form" v-if="addItem.add" label-width="100px" size="mini">
+                <el-form-item label="规格名称">
+                    <el-input placeholder="规格名称" v-model="addItem.name"></el-input>
+                </el-form-item>
+                <el-form-item label="规格值">
+                    <el-input placeholder="规格值" v-model="addItem.item"></el-input>
+                </el-form-item>
+                <el-form-item class="">
+                    <el-button @click="addSpec" type="primary">确认</el-button>
+                    <el-button @click="addItem.add = false" type="info">取消</el-button>
+                </el-form-item>
+                </el-form>
+                <div class="">
+                  <el-button @click="addItem.add = true">添加规格值</el-button>
+                </div>
+            </el-card>
+            <SkuForm
+              ref="skuForm"
+              :source-attribute="sourceAttribute"
+              :attribute.sync="attribute"
+              :sku.sync="sku"
+              :structure="structure"
+              separator="-"
+            />
           </template>
-        </d2-crud-x>        
+
+          <!-- 短视频 -->
+          <template ref="videoData" slot="videoFormSlot">
+            <!-- 上传 -->
+            <VideoUpload
+              ref="VideoUpload"
+              type="alioss"
+              :value="videoUp"
+              @success="videoUpSuccess"
+              @remove="videoRemove"
+              :uploader="videoUploadConfig"
+              :elProps="{
+                listType:'picture-card'
+              }"
+            />
+          </template>
+        </d2-crud-x>
     </d2-container>
 </template>
 
@@ -54,16 +72,25 @@ import { d2CrudPlus } from 'd2-crud-plus'
 import SkuForm from 'vue-sku-form'
 import * as api from './api'
 import { request } from '@/api/service'
+import util from '@/libs/util'
+import * as forEach from 'lodash.foreach'
+import VideoUpload from '@/business/modules/goods/components/videoUpload/videoUpload'
 
 export default {
-  name: 'User',
+  name: 'Goods',
   mixins: [d2CrudPlus.crud],
   components: {
-		SkuForm
+		SkuForm,
+    VideoUpload
 	},
   data () {
     return {
+      videoUploadConfig:{},
+      videoUrl: '',
+      videoVisible: false,
       config:[],
+      videoUp:[],
+      header:'',
       // 添加规格
       addItem: {
         add:false, // 状态
@@ -135,10 +162,22 @@ export default {
       ]
     }
   },
+  created () {
+      this.header = {
+        Token: util.cookies.get('token'),
+      };
+  },
   mounted: function () {
     this.getConfig();
   },
   methods: {
+    //短视频上传成功回调
+    videoUpSuccess(file) {
+        this.videoUp.push(file);
+    },
+    videoRemove(file){
+        this.videoUp.splice(this.videoUp.findIndex(item => item.url === file.url), 1)
+    },    
     getConfig(){
       request({
         url: '/setting.Config/getAll',
@@ -197,7 +236,6 @@ export default {
           case 'upload_type':
               if(this.config[i].value == 'aliyunOss'){
                 upLoadConfig.type = 'alioss';
-                upLoadConfig.region = 'oss-cn-shenzhen';
                 upLoadConfig.returnType = 'key';
                 upLoadConfig.custom = {
                   fileType: 'goods', //上传时存放的文件目录
@@ -210,6 +248,10 @@ export default {
 
                     case 'upload_type_aliyunoss_bucket':
                       upLoadConfig.bucket = this.config[j].value;
+                      break;
+
+                    case 'upload_type_aliyunoss_region':
+                      upLoadConfig.region = this.config[j].value;
                       break;
 
                     default:
@@ -232,13 +274,21 @@ export default {
         this.sku = context.row.skuValue;
         this.attribute = context.row.skuAttribute;
         this.sourceAttribute = context.row.skuAttribute;
+        if(context.row.video !== ''){
+          this.videoUp = [{name:context.row.video,url:context.row.video}];
+        }else{
+          this.videoUp = [];
+        }
       }
       if(context.mode == 'add')
       {
         this.sku = [];
         this.attribute = [];
         this.sourceAttribute = [];
-      }
+        this.videoUp = [];
+      }      
+      this.videoUploadConfig = upLoadConfig;
+      context.template.home_recommended_images.component.props.uploader = upLoadConfig;
       context.template.images.component.props.uploader = upLoadConfig;
       context.template.content.component.props.uploader = upLoadConfig;
     },
@@ -251,6 +301,9 @@ export default {
     addRequest (row) {
         row.attribute = this.attribute;
         row.sku = this.sku;
+        if(this.videoUp.length > 0){
+          row.video = this.videoUp[0]['url'];
+        }
         return api.AddObj(row)
 
       // this.$refs.skuForm.validate(valid => {
@@ -268,6 +321,11 @@ export default {
     updateRequest (row) {
       row.attribute = this.attribute;
       row.sku = this.sku;
+      if(this.videoUp.length > 0){
+        row.video = this.videoUp[0]['url'];
+      }else{
+        row.video = '';
+      }
       return api.UpdateObj(row)
     },
     delRequest (row) {
@@ -282,4 +340,29 @@ export default {
 
 <style>
   .page-compact .el-table--border{ border-left:1px solid #EBEEF5}
+  .avatar-uploader {
+      width: 100px;
+      height: 100px;
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+  }
+  .avatar-uploader:hover {
+      border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+  }
+  .avatar {
+      width: 100px;
+      height: 100px;
+      display: block;
+  }
 </style>

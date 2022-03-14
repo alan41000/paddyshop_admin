@@ -81,13 +81,6 @@ export const crudOptions = (vm) => {
             component: {
               props: {
                 elProps:{limit:1},
-                uploader: {
-                  type: 'form',
-                  action: '/admin/common.upload/save',
-                  successHandle(res){
-                    return {url:res.data.url}
-                    }
-                },
               },
               span: 24,                  
             },
@@ -106,6 +99,23 @@ export const crudOptions = (vm) => {
         component: {
           span: 24
         },
+      },
+      show:false,
+      sortable: false
+    },
+    {
+      title: '短视频',
+      key: 'video',
+      type:'image-uploader',
+      component: { props: { height: 80, width: 80 } },
+      width: 95,
+      show:false,
+      search: { disabled: true },
+      form: {    
+          slot:true,  
+          component: {
+            span: 24
+          },
       },
       show:false,
       sortable: false

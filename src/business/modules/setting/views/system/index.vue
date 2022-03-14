@@ -169,6 +169,9 @@
                         <el-form-item label="Endpoint" prop="upload_type_aliyunoss_endpoint">
                             <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_endpoint" placeholder="请输入Endpoint,以https开头，/结尾"></el-input>
                         </el-form-item>
+                        <el-form-item label="Region" prop="upload_type_aliyunoss_region">
+                            <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_region" placeholder="请输入Region,如oss-cn-shenzhen"></el-input>
+                        </el-form-item>
                         <el-form-item label="AccessKeyId" prop="upload_type_aliyunoss_accessKeyId">
                             <el-input class="input" v-model="aliyunOssForm.upload_type_aliyunoss_accessKeyId" placeholder="请输入AccessKeyId"></el-input>
                         </el-form-item>
@@ -217,6 +220,7 @@ export default {
         aliyunOssForm:{
             upload_type_aliyunoss_bucket:'',
             upload_type_aliyunoss_endpoint:'',
+            upload_type_aliyunoss_region:'',
             upload_type_aliyunoss_accessKeyId:'',
             upload_type_aliyunoss_accessKeySecret:'',
             upload_type_aliyunoss_roleArn:'',
@@ -362,6 +366,10 @@ export default {
                             
                             case 'upload_type_aliyunoss_endpoint':
                                 this.aliyunOssForm.upload_type_aliyunoss_endpoint = ret.data[i].value;
+                                break;
+
+                            case 'upload_type_aliyunoss_region':
+                                this.aliyunOssForm.upload_type_aliyunoss_region = ret.data[i].value;
                                 break;
 
                             case 'upload_type_aliyunoss_accessKeyId':
