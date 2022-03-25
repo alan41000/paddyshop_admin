@@ -235,20 +235,24 @@ export const crudOptions = (vm) => {
     {
       title: '购买赠送积分',
       key: 'give_integral',
-      sortable: false,
-      search: {disabled:true},
-      form: {
-          disabled:false
-      },
-      show:false
-    },
-    {
-      title: '最少起订',
-      key: 'buy_min_number',
+      type: 'number',
       sortable: false,
       search: {disabled:true},
       form: {
           disabled:false,
+          rules: [{ type: 'number', message: '请输入正确的积分' }],
+      },
+      show:false
+    },
+    {
+      title: '最少起订量',
+      key: 'buy_min_number',
+      type: 'number',
+      sortable: false,
+      search: {disabled:true},
+      form: {
+          disabled:false,
+          rules: [{ type: 'number', message: '请输入正确的起订量' }],
           component:{
             placeholder:'该商品最低的起订量，默认为1',
           }
