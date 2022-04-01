@@ -341,6 +341,17 @@ export const crudOptions = (vm) => {
         sortable: false
       },
       {
+        title: '领取数量',
+        key: 'receive_qty',   
+        type: 'number',     
+        search: { disabled: true },
+        sortable: true,
+        form: {
+          disabled:true,
+        },
+        // width:200,
+      },
+      {
         title: '发放数量',
         key: 'total_qty',   
         type: 'number',     
