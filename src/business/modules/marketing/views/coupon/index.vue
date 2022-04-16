@@ -62,7 +62,6 @@ export default {
       return api.GetObj(row.id)
     },
     doDialogOpened(context){
-      
       request({ 
         url: '/marketing.coupon/goodsListForCoupon',
         method: 'post',
@@ -73,6 +72,7 @@ export default {
         this.getD2Crud().getFormTemplate('goods_ids').component.titles = ['可选','已选'];
       });
       if(context.mode == 'edit'){
+        // 编辑模式初始化数据
         if(context.row.expire_type == 1)
         {
           context.row.expire_time = [
@@ -98,7 +98,45 @@ export default {
           context.row.goods_ids = context.row.apply_range_config;
           context.form.goods_ids = context.row.apply_range_config;
         }
-      }     
+      }
+    },
+    doCellDataChange(context){
+      // 是否开放领取
+      if(context.key == 'is_user_receive'){
+        this.enableStatusUpdata(context,'marketing.coupon','setIsUserReceive');
+      }
+      // 是否注册发放
+      if(context.key == 'is_reg_send'){
+        this.enableStatusUpdata(context,'marketing.coupon','setIsRegSend');
+      }
+      // 是否启用
+      if(context.key == 'is_enable'){
+        this.enableStatusUpdata(context,'marketing.coupon','setIsEnable');
+      }
+    },
+    // 开关启用更新组件函数
+    enableStatusUpdata(context,controller,field)
+    {
+      if(context['value']['value'])
+      {
+        var data = {
+          params:1,
+          id:context['row']['id']
+        }
+      }
+      else
+      {
+        var data = {
+          params:0,
+          id:context['row']['id']
+        }
+      }      
+      request({ url: '/' + controller + '/'+ field +'',method: 'post',data: data }).then(ret => {
+        if(ret.code !== 200)
+        {
+          this.$message.error(ret.msg);
+        }
+      })
     },
   }
 }

@@ -84,6 +84,22 @@ export const crudOptions = (vm) => {
         },
         form: {
           rules: [{ required:true, message: '请填写订单最低金额' }],
+          component:{
+            disabled:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return true
+              }
+              return false
+            },
+            show:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return false
+              }
+              return true
+            },
+          }
         },
         width: 200,
       },
@@ -100,6 +116,26 @@ export const crudOptions = (vm) => {
         search: {},
         form: {
           rules: [{ required:true, message: '请输入正确的到期类型' }],
+          component:{
+            disabled:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return true
+              }
+              if(context.form.receive_qty == 0 || context.form.receive_qty == undefined){
+                return false
+              }
+            },
+            show:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return false
+              }
+              if(context.form.receive_qty == 0 || context.form.receive_qty == undefined){
+                return true
+              }
+            },
+          }
         },
         width: 200,
       },
@@ -116,14 +152,14 @@ export const crudOptions = (vm) => {
           rules: [{ required:true, message: '请输入有效小时' }],
           component:{
             disabled:(context) => {
-              if(context.form.expire_type == 0)
+              if(context.form.expire_type == 0 && (context.form.receive_qty == 0 || context.form.receive_qty == undefined))
               {
                 return false
               }
               return true
             },
             show:(context) => {
-              if(context.form.expire_type == 0)
+              if(context.form.expire_type == 0 && (context.form.receive_qty == 0 || context.form.receive_qty == undefined))
               {
                 return true
               }
@@ -145,16 +181,15 @@ export const crudOptions = (vm) => {
         form: {
           rules: [{ required:true, message: '请选择有效时间' }],
           component:{
-            // format:'timestamp',
             disabled:(context) => {
-              if(context.form.expire_type == 1)
+              if(context.form.expire_type == 1 && (context.form.receive_qty == 0 || context.form.receive_qty == undefined))
               {
                 return false
               }
               return true
             },
             show:(context) => {
-              if(context.form.expire_type == 1)
+              if(context.form.expire_type == 1 && (context.form.receive_qty == 0 || context.form.receive_qty == undefined))
               {
                 return true
               }
@@ -174,9 +209,27 @@ export const crudOptions = (vm) => {
               { value: 0, label: '满减劵' }, { value: 1, label: '折扣劵' }
           ]
         },
-        search: {},
+        search: {
+          disabled:false
+        },
         form: {
           rules: [{ required:true, message: '请输入正确的名称' }],
+          component:{
+            disabled:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return true
+              }
+              return false
+            },
+            show:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return false
+              }
+              return true
+            },
+          }
         },
         width: 200,
       },
@@ -221,14 +274,14 @@ export const crudOptions = (vm) => {
           rules: [{ required:true, message: '请输入折扣率' }],
           component:{
             disabled:(context) => {
-              if(context.form.type == 1)
+              if(context.form.type == 1 && (context.form.receive_qty == 0 || context.form.receive_qty == undefined))
               {
                 return false
               }
-              // return true
+              return true
             },
             show:(context) => {
-              if(context.form.type == 1)
+              if(context.form.type == 1 && (context.form.receive_qty == 0 || context.form.receive_qty == undefined))
               {
                 return true
               }
@@ -251,6 +304,22 @@ export const crudOptions = (vm) => {
         search: {},
         form: {
           rules: [{ required:true, message: '请选择使用限制' }],
+          component:{
+            disabled:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return true
+              }
+              return false
+            },
+            show:(context) => {
+              if(context.form.receive_qty > 0)
+              {
+                return false
+              }
+              return true
+            },
+          }
         },
         width: 200
       },
@@ -343,11 +412,14 @@ export const crudOptions = (vm) => {
       {
         title: '领取数量',
         key: 'receive_qty',   
-        type: 'number',     
+        // type: 'number',
         search: { disabled: true },
         sortable: true,
         form: {
-          disabled:true,
+          disabled:false,
+          component:{
+            readOnly:true,
+          }
         },
         // width:200,
       },
@@ -372,7 +444,7 @@ export const crudOptions = (vm) => {
       {
         title: '开放领取',
         key: 'is_user_receive',
-        type: 'select',
+        type: 'switch',
         width: 80,
         search: {
           disabled: true,
@@ -392,7 +464,7 @@ export const crudOptions = (vm) => {
       {
         title: '注册发放',
         key: 'is_reg_send',
-        type: 'select',
+        type: 'switch',
         width: 80,
         search: {
           disabled: true,
@@ -412,7 +484,7 @@ export const crudOptions = (vm) => {
       {
         title: '启用',
         key: 'is_enable',
-        type: 'select',
+        type: 'switch',
         dict: {
             data: [
                 { value: true, label: '是',color: 'success'  }, { value: false, label: '否',color:'danger'}

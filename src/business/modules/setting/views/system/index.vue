@@ -44,6 +44,9 @@
                             </el-upload>
                         </el-form-item>
                         <div style="width:600px"><el-divider></el-divider></div>
+                        <el-form-item label="热门搜索" prop="common_website_hotsearch">
+                            <el-input class="input" v-model="baseWebsiteForm.common_website_hotsearch" placeholder="热门搜索关键词，以空格分开"></el-input>
+                        </el-form-item>
                         <el-form-item label="库存扣减规则" prop="common_goods_inventory_rules">
                             <el-select v-model="baseWebsiteForm.common_goods_inventory_rules" placeholder="请选择">
                                 <el-option
@@ -330,6 +333,10 @@ export default {
                             
                             case 'common_goods_inventory_rules':
                                 this.baseWebsiteForm.common_goods_inventory_rules = ret.data[i].value;
+                                break;
+
+                            case 'common_website_hotsearch':
+                                this.baseWebsiteForm.common_website_hotsearch = ret.data[i].value;
                                 break;
 
                             case 'app_weixinminiapp_appid':

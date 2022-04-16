@@ -118,7 +118,7 @@ export const crudOptions = (vm) => {
       {
         title: '省',
         key: 'province',
-        search: { disabled: false },
+        search: { disabled: true },
         form: {
           
         },
@@ -127,16 +127,14 @@ export const crudOptions = (vm) => {
       {
         title: '城市',
         key: 'city',
-        search: { disabled: false },
-        form: {
-          
-        },
+        search: { disabled: true },
+        form: {},
         show:true,
       },
       {
         title: '生日',
         key: 'birthday',
-        search: { disabled: false },
+        search: { disabled: true },
         type: 'date',
         show:true,
       },

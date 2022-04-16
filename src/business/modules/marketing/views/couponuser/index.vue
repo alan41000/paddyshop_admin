@@ -12,7 +12,7 @@
                 v-on="_crudListeners"
         >
           <div slot="header">
-            <crud-search ref="search" :options="crud.searchOptions" @submit="handleSearch"  />            
+            <!-- <crud-search ref="search" :options="crud.searchOptions" @submit="handleSearch"  />             -->
             <crud-toolbar :search.sync="crud.searchOptions.show"
                           :compact.sync="crud.pageOptions.compact"
                           :columns="crud.columns"

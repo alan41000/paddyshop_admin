@@ -11,29 +11,7 @@ export const crudOptions = (vm) => {
         highlightCurrentRow: true,
         rowKey: 'id'
     },
-    rowHandle: {
-      view: {
-        thin: true,
-        text: null,
-        disabled () {
-          return !vm.hasPermissions('marketing:couponuser:view')
-        }
-      },
-      edit: {
-        thin: true,
-        text: null,
-        show:false,
-        disabled: true,
-      },
-      remove: {
-        thin: true,
-        text: null,
-        show:false,
-        disabled: true,
-      },
-      width: 180,
-      fixed: 'right',
-    },
+    rowHandle: false,
     columns: [
       {
         title: 'ID',

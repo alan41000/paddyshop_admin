@@ -4,35 +4,9 @@ export const crudOptions = (vm) => {
     options: {
         height: '100%', // 表格高度100%, 使用toolbar必须设置
         highlightCurrentRow: true,
-        rowKey: 'id'
+        rowKey: 'id',
     },
-    rowHandle: {
-      view: {
-        thin: true,
-        text: null,
-        disabled () {
-          return !vm.hasPermissions('wallet.walletLog:view')
-        }
-      },
-      edit: {
-        thin: true,
-        text: null,
-        show: false,
-        disabled: () => {
-          return !vm.hasPermissions('wallet.walletLog:edit')
-        }
-      },
-      remove: {
-        thin: true,
-        text: null,
-        show: false,
-        disabled: () => {
-          return !vm.hasPermissions('wallet.walletLog:del')
-        }
-      },
-      width: 180,
-      fixed: 'right'
-    },
+    rowHandle: false,
     columns: [
       {
         title: '会员',
@@ -63,7 +37,7 @@ export const crudOptions = (vm) => {
         type: 'select',
         search: {disabled:true},
         form: {},
-        width: 80,
+        width: 200,
         dict: {
           data: [
             { value: 0, label: '系统' },
