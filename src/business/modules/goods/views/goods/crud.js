@@ -185,6 +185,23 @@ export const crudOptions = (vm) => {
       sortable: true
     },
     {
+      title: '首页推荐',
+      key: 'is_home_recommended',
+      type: 'switch',
+      width: 80,
+      search: {
+        disabled: true,
+      },
+      form: { // 表单配置
+        component: {
+          show (context) {
+            return true
+          }
+        }
+      },
+      sortable: false
+    },
+    {
       title: '上下架',
       key: 'is_shelves',
       type: 'switch',

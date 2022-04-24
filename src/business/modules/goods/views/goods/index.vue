@@ -188,7 +188,12 @@ export default {
     },
     doCellDataChange(context){
       // 上下架状态更新
-      this.enableStatusUpdata(context,'goods.goods','shelves');
+      if(context.key == 'is_home_recommended'){
+        this.enableStatusUpdata(context,'goods.goods','recommended');
+      }
+      if(context.key == 'is_shelves'){
+        this.enableStatusUpdata(context,'goods.goods','shelves');
+      }
     },
 
     // 开关启用更新组件函数
