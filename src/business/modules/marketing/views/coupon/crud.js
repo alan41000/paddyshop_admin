@@ -416,7 +416,7 @@ export const crudOptions = (vm) => {
         search: { disabled: true },
         sortable: true,
         form: {
-          disabled:false,
+          disabled:true,
           component:{
             readOnly:true,
           }
