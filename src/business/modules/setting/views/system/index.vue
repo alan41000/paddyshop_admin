@@ -239,7 +239,7 @@ export default {
             common_website_url:'',
             common_website_logo:'',
             common_website_icon:'',
-            common_goods_inventory_rules:'付款减库存',
+            common_goods_inventory_rules:'',
         },
         baseWebsiteRules:{
             common_website_url:[
