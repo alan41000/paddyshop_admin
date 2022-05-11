@@ -7,7 +7,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/AlanLeung87/paddyshop_admin.git"
+    "url": "https://gitee.com/alan410/paddyshop_admin.git"
   },
   "scripts": {
     "serve": "vue-cli-service serve --open",

@@ -82,10 +82,7 @@
           <p class="page-login--content-footer-copyright">
             Copyright
             <d2-icon name="copyright"/>
-            2021 PaddyShop
-            <a href="https://gitee.com/AlanLeung87">
-              @Alan Leung
-            </a>
+             2021 <a href="https://www.paddyshop.net">PaddyShop</a>
           </p>
           <!-- <p class="page-login--content-footer-options">
             <a href="#">帮助</a>
