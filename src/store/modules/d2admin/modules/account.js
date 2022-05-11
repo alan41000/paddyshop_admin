@@ -72,7 +72,7 @@ export default {
           })
           .catch(() => {
             commit('d2admin/gray/set', false, { root: true })
-            Message({ message: '取消注销操作' })
+            // Message({ message: '取消注销操作' })
           })
       } else {
         logout()
