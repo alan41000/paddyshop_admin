@@ -86,10 +86,10 @@
                 </el-tab-pane>
                 <el-tab-pane label="微信公众号H5" name="weixinH5">                    
                     <el-form :model="weixinH5Form" :rules="WeixinH5Rules" ref="weixinH5Form" label-width="100px" class="demo-ruleForm">
-                        <el-form-item label="AppId" prop="appid">
+                        <el-form-item label="AppId" prop="app_weixinh5_appid">
                             <el-input class="input" v-model="weixinH5Form.app_weixinh5_appid" placeholder="请输入微信公众号AppId"></el-input>
                         </el-form-item>
-                        <el-form-item label="AppSecret" prop="appid">
+                        <el-form-item label="AppSecret" prop="app_weixinh5_appsecret">
                             <el-input class="input" v-model="weixinH5Form.app_weixinh5_appsecret" placeholder="请输入微信公众号AppSecret"></el-input>
                         </el-form-item>
                         <el-form-item>
@@ -345,6 +345,14 @@ export default {
 
                             case 'app_weixinminiapp_appsecret':
                                 this.appWeixinMiniAppForm.app_weixinminiapp_appsecret = ret.data[i].value;
+                                break;
+
+                            case 'app_weixinh5_appid':
+                                this.weixinH5Form.app_weixinh5_appid = ret.data[i].value;
+                                break;
+
+                            case 'app_weixinh5_appsecret':
+                                this.weixinH5Form.app_weixinh5_appsecret = ret.data[i].value;
                                 break;
                             
                             case 'payment_wallet_enable':
