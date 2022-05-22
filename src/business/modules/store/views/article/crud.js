@@ -81,9 +81,10 @@ export const crudOptions = (vm) => {
         form: {
             component: {
               props: {
+                elProps:{limit:1},
                 uploader: {
                   type: 'form',
-                  action: '/shop/upload/save',
+                  action: '/admin/common.upload/save',
                   successHandle(res){
                     return {url:res.data.url}
                     }
@@ -143,7 +144,7 @@ export const crudOptions = (vm) => {
         type: 'select',
         dict: {
             data: [
-                { value: 1, label: '是',color: 'success'  }, { value: 0, label: '否',color:'danger'}
+                { value: true, label: '是',color: 'success'  }, { value: false, label: '否',color:'danger'}
             ]
           },
         search: {},
@@ -167,7 +168,7 @@ export const crudOptions = (vm) => {
               props: {
                 uploader: {
                   type: 'form', // 上传后端类型【cos,aliyun,oss,form】
-                  action: '/shop/upload/save',
+                  action: '/admin/common.upload/save',
                   successHandle(res){
                     return {url:res.data.url}
                     }
@@ -175,7 +176,7 @@ export const crudOptions = (vm) => {
               },
               events: {
                 'text-change': (event) => {
-                  console.log('text-change:', event)
+                  // console.log('text-change:', event)
                 }
               },
               show: true
