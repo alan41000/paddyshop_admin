@@ -150,7 +150,7 @@ export const crudOptions = (vm) => {
       form: {
         rules: [{ required: true, message: '请选择商品分类' }],
         component: {
-            props: { ignoreFullCheckedChildren: false, leafOnly: true, includeHalfChecked: false }
+            props: { ignoreFullCheckedChildren: false, leafOnly: false, includeHalfChecked: true }
         },
         disabled:false,
       },

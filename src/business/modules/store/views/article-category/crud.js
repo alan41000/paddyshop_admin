@@ -2,6 +2,7 @@ import { request } from '@/api/service'
 export const crudOptions = (vm) => {
   return {
     pagination:{
+        disabled:true,
         pageSize:100
     },
     rowHandle: {
