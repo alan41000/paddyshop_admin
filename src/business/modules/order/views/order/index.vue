@@ -85,6 +85,16 @@
                         </div>
                     </div>
                 </el-col>
+                <el-col :span="12" v-if="orderDetail.hasOwnProperty('row') && orderDetail.row.extension_data">
+                    <div>
+                        其他信息
+                    </div>
+                    <div class="pd20">
+                        <div v-for="(item,index) in JSON.parse(orderDetail.row.extension_data)">
+                            {{item.name}} ： {{item.tips}}
+                        </div>
+                    </div>
+                </el-col>
             </el-row>
             <el-row>
                 <el-col :span="24">

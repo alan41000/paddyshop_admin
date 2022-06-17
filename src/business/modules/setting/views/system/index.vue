@@ -57,6 +57,11 @@
                                 </el-option>
                             </el-select>
                         </el-form-item>
+                        <el-form-item label="积分抵现" prop="common_website_integral_deduction">
+                            <el-input class="input" label="" v-model="baseWebsiteForm.common_website_integral_deduction" placeholder="积分抵现比例，单位：元">                                
+                            </el-input>
+                            <span class="tips">如1积分=10元输入10,1积分=0.1元输入0.1，1积分=1元输入1,不启用积分抵现留空或输入0</span>
+                        </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('baseWebsiteForm')">确定</el-button>
                         </el-form-item>
@@ -240,6 +245,7 @@ export default {
             common_website_logo:'',
             common_website_icon:'',
             common_goods_inventory_rules:'',
+            common_website_integral_deduction:'',
         },
         baseWebsiteRules:{
             common_website_url:[
@@ -337,6 +343,10 @@ export default {
 
                             case 'common_website_hotsearch':
                                 this.baseWebsiteForm.common_website_hotsearch = ret.data[i].value;
+                                break;
+
+                            case 'common_website_integral_deduction':
+                                this.baseWebsiteForm.common_website_integral_deduction = ret.data[i].value;
                                 break;
 
                             case 'app_weixinminiapp_appid':
@@ -463,6 +473,12 @@ export default {
 <style lang="scss" scoped>
     .input{
         width: 500px;
+    }
+    .tips{
+        float: left;
+        width: 100%;
+        color: #8c939d;
+        margin-top: 5px;
     }
     .avatar-uploader {
         width: 100px;
