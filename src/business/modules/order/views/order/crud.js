@@ -14,8 +14,8 @@ export const crudOptions = (vm) => {
     rowHandle: {
         custom: [
             {
-                text: ' 发货',
-                type: 'primary',
+                text: '发货',
+                type: 'warning',
                 size: 'small',
                 emit: 'delivery',
                 icon: 'el-icon-s-flag',
@@ -27,13 +27,26 @@ export const crudOptions = (vm) => {
                 }
             },
             {
-              text: ' 详情',
+              text: '详情',
               type: 'primary',
               size: 'small',
               emit: 'orderDetailShow',
               icon: 'el-icon-s-flag',
               disabled () {
                   return !vm.hasPermissions('order.order:view')
+              }
+            },
+            {
+              text: '关闭',
+              type: '',
+              size: 'small',
+              emit: 'closeOrder',
+              icon: 'el-icon-s-flag',
+              disabled () {
+                  return !vm.hasPermissions('order.order:close')
+              },
+              show:(index,row)=>{
+                  return row.status == 0 || row.status == 1
               }
             },
         ],

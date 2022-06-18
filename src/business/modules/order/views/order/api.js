@@ -39,3 +39,11 @@ export function Delivery (data) {
         data: { data }
     })
 }
+
+export function CloseOrder (data) {
+  return request({
+      url: apiPrefix + '/close',
+      method: 'post',
+      data: data
+  })
+}

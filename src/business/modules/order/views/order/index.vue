@@ -9,6 +9,7 @@
                 v-on="_crudListeners"
                 @delivery="delivery"
                 @orderDetailShow="orderDetailShow"
+                @closeOrder="closeOrder"
         >
           <div slot="header">
             <crud-search ref="search" :options="crud.searchOptions" @submit="handleSearch"  />
@@ -24,7 +25,7 @@
             <el-form ref="deliveryForm" :model="dialogForm">
                 <el-form-item label="快递公司" :label-width="formLabelWidth">
                     <el-select v-model="dialogForm.express_id" placeholder="请选择快递公司">
-                        <el-option v-for="(item,index) in deliveryData" :label="item.name" :value="item.id"></el-option>
+                        <el-option v-for="(item,index) in deliveryData" :label="item.name" :value="item.id" :key="index"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="快递单号" :label-width="formLabelWidth">
@@ -80,8 +81,8 @@
                             </el-steps>
                         </div>
                         <div class="mt20">
-                            <el-button size="small" @click="delivery(orderDetail)" v-if="hasPermissions('order.order:delivery') && orderDetail.row.status == 2">发货</el-button>
-                            <el-button size="small" v-if="orderDetail.row.status == 0 || orderDetail.row.status == 1">关闭订单</el-button>
+                            <el-button type="warning" size="small" @click="delivery(orderDetail)" v-if="hasPermissions('order.order:delivery') && orderDetail.row.status == 2">发货</el-button>
+                            <el-button size="small" :disabled="!vm.hasPermissions('order.order:close')" v-if="orderDetail.row.status == 0 || orderDetail.row.status == 1" @click="closeOrder(orderDetail)">关闭订单</el-button>
                         </div>
                     </div>
                 </el-col>
@@ -90,7 +91,7 @@
                         其他信息
                     </div>
                     <div class="pd20">
-                        <div v-for="(item,index) in JSON.parse(orderDetail.row.extension_data)">
+                        <div v-for="(item,index) in JSON.parse(orderDetail.row.extension_data)" :key="index">
                             {{item.name}} ： {{item.tips}}
                         </div>
                     </div>
@@ -254,6 +255,29 @@ export default {
             this.$refs['deliveryForm'].resetFields();
         })
     },
+    closeOrder(e){
+        this.$confirm('确定要关闭该订单吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            console.log('e',e)
+            var data = {
+                id:e.row.id,
+            };
+            api.CloseOrder(data).then(res=>{
+                if(res.code == 200)
+                {
+                    this.$message({
+                        type: 'success',
+                        message: '订单关闭成功!'
+                    });
+                    this.dialogOrderDetail = false;
+                    this.doRefresh();
+                }
+            });
+        });
+    }
   }
 }
 </script>
