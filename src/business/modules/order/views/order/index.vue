@@ -1,7 +1,7 @@
 <template>
     <d2-container :class="{'page-compact':crud.pageOptions.compact}">
         <template slot="header">
-          
+
         </template>
         <d2-crud-x
                 ref="d2Crud"
@@ -51,7 +51,7 @@
                             </el-form-item>
                             <el-form-item label="买家" v-if="orderDetail.row.userInfo">
                                 <el-input v-model="orderDetail.row.userInfo['nickname']"></el-input>
-                            </el-form-item>                            
+                            </el-form-item>
                             <el-form-item label="收货人" v-if="orderDetail.row.addressInfo">
                                 <el-input v-model="orderDetail.row.addressInfo.name"></el-input>
                             </el-form-item>
@@ -72,8 +72,22 @@
                         订单状态
                     </div>
                     <div class="pd20" v-if="orderDetail.row">
-                        <div>
-                            <el-steps :space="200" :active="orderDetail.row.status" finish-status="success">
+                        <div v-if="orderDetail.row.status === 6">
+                            <el-steps :space="200" :active="3" finish-status="success">
+                                <el-step title="待付款"></el-step>
+                                <el-step title="待发货"></el-step>
+                                <el-step v-show="orderDetail.delivery_time !== null" title="已发货"></el-step>
+                                <el-step title="已关闭"></el-step>
+                            </el-steps>
+                        </div>
+                        <div v-else-if="orderDetail.row.status === 5">
+                            <el-steps :space="200" :active="2" finish-status="success">
+                                <el-step title="待付款"></el-step>
+                                <el-step title="已取消"></el-step>
+                            </el-steps>
+                        </div>
+                        <div v-else>
+                            <el-steps :space="200" :active="orderDetail.row.status-1" finish-status="success">
                                 <el-step title="待付款"></el-step>
                                 <el-step title="待发货"></el-step>
                                 <el-step title="已发货"></el-step>

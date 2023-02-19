@@ -1,5 +1,6 @@
 import { request } from '@/api/service'
 import OrderGoods from '@/business/modules/order/components/orderGoods/orderGoods'
+import OrderStatus from '@/business/modules/order/components/orderStatus/orderStatus'
 
 export const crudOptions = (vm) => {
   return {
@@ -9,7 +10,8 @@ export const crudOptions = (vm) => {
         rowKey: 'id'
     },
     components: {
-        OrderGoods
+        OrderGoods,
+        OrderStatus
     },
     rowHandle: {
         custom: [
@@ -114,17 +116,20 @@ export const crudOptions = (vm) => {
         sortable: true,
         type: 'select',
         width: 100,
-        dict: {
-            data: [
-                { value: 0, label: '待确认' },
-                { value: 1, label: '待支付'},
-                { value: 2, label: '待发货'},
-                { value: 3, label: '已发货'},
-                { value: 4, label: '已完成'},
-                { value: 5, label: '已取消'},
-                { value: 6, label: '已关闭'}
-            ]
-          },
+        component: {
+          name: OrderStatus,
+        },
+        // dict: {
+        //     data: [
+        //         { value: 0, label: '待确认' },
+        //         { value: 1, label: '待支付'},
+        //         { value: 2, label: '待发货'},
+        //         { value: 3, label: '已发货'},
+        //         { value: 4, label: '已完成'},
+        //         { value: 5, label: '已取消'},
+        //         { value: 6, label: '已关闭'}
+        //     ]
+        //   },
           search: { disabled:false},
         form: {},
         width: 100

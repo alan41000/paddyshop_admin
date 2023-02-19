@@ -82,7 +82,7 @@ export const crudOptions = (vm) => {
               props: {
                 elProps:{limit:1},
               },
-              span: 24,                  
+              span: 24,
             },
         },
         sortable: false
@@ -111,8 +111,8 @@ export const crudOptions = (vm) => {
       width: 95,
       show:false,
       search: { disabled: true },
-      form: {    
-          slot:true,  
+      form: {
+          slot:true,
           component: {
             span: 24
           },
@@ -123,7 +123,7 @@ export const crudOptions = (vm) => {
     {
       title: '商品名称',
       key: 'title',
-      width: 400,          
+      width: 400,
       search: { disabled: false }, // 开启查询
       form: {
         rules: [{ required: true, message: '请填写商品名称' }],
@@ -136,9 +136,9 @@ export const crudOptions = (vm) => {
       title: '商品分类',
       key: 'category_id',
       type: 'tree-selector',
-      dict: { 
-        url: '/goods.category/tree', 
-        isTree: true, 
+      dict: {
+        url: '/goods.category/tree',
+        isTree: true,
         value: 'id',
         label: 'name',
         getData: (url, dict) => {
@@ -161,7 +161,7 @@ export const crudOptions = (vm) => {
       key: 'price',
       width: 150,
       search: {disabled:true},
-      form: { // 表单配置            
+      form: { // 表单配置
           disabled :true
       },
       sortable: true
@@ -290,6 +290,19 @@ export const crudOptions = (vm) => {
       show:false
     },
     {
+      title: '最大可用积分',
+      key: 'max_buy_integral',
+      sortable: false,
+      search: {disabled:true},
+      form: {
+          disabled:false,
+          component:{
+            placeholder:'积分抵现最大可用的积分',
+          }
+      },
+      show:false
+    },
+    {
       title: '规格',
       key: 'sku',
       type: 'select',
@@ -306,7 +319,7 @@ export const crudOptions = (vm) => {
       type:'editor-quill',
       sortable: false,
       search: {disabled:true},
-      form: 
+      form:
       {
         rules: [{ required: true, message: '请填写详情内容' }],
         component: {
@@ -318,7 +331,7 @@ export const crudOptions = (vm) => {
         }
       },
       show:false
-    }, 
+    },
     ]
   }
 }

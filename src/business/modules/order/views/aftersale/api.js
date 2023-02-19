@@ -1,5 +1,5 @@
 import { request } from '@/api/service'
-const apiPrefix = '/order.order'
+const apiPrefix = '/order.aftersale'
 export function GetList (data) {
   return request({
     url: apiPrefix + '/list',
@@ -32,17 +32,25 @@ export function DelObj (id) {
   })
 }
 
-export function Delivery (data) {
-    return request({
-        url: apiPrefix + '/delivery',
-        method: 'post',
-        data: { data }
-    })
+export function Refuse (data) {
+  return request({
+      url: apiPrefix + '/refuse',
+      method: 'post',
+      data: data
+  })
 }
 
-export function CloseOrder (data) {
+export function Audit (data) {
   return request({
-      url: apiPrefix + '/close',
+      url: apiPrefix + '/audit',
+      method: 'post',
+      data: data
+  })
+}
+
+export function Confirm (data) {
+  return request({
+      url: apiPrefix + '/confirm',
       method: 'post',
       data: data
   })
